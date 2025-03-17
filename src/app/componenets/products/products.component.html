@@ -1,0 +1,74 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="NewProduct()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">اضافة صنف جديد</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">بحث:</div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="filterText" />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">فلترة بالتصنيف:</div>
+        <div class="col-md-4">
+          <select class="form-control" (change)="FilterCategory()" [(ngModel)]="selectedCatId">
+            <option [value]="0">الكل</option>
+            @for(cat of categories;track cat.id)
+            {
+            <option [value]="cat.id">{{cat.name}}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="products.length">
+          <thead>
+            <tr>
+              <th>الصورة</th>
+              <th>اسم الصنف</th>
+              <th>التصنيف</th>
+              <th>السعر</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of filteredProducts">
+              <td>
+                <!-- <img
+                  *ngIf="showImage"
+                  [src]="product.imageUrl"
+                  [title]="product.productName | uppercase"
+                  [alt]="product.productName"
+                  [style.width.px]="imageWidth"
+                  [style.margin.px]="2"
+                /> -->
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.catId }}</td>
+              <td>{{ product.price }}</td>
+              <td>
+                <button
+                  (click)="EditProduct(product.id)"
+                  class="btn btn-primary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تعديل
+                </button>
+                <button
+                  (click)="DeleteProduct(product)"
+                  class="btn btn-danger"
+                  style="margin:0 !important;"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

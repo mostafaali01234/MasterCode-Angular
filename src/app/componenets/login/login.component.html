@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4 divcard">
+            <h1 class="text-center login-title">تسجيل الدخول</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                    alt="">
+                <!-- <form #loginForm="ngForm"  class="form-signin" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" required [(ngModel)]="model.email" name="email" placeholder="البريد الالكتروني" autofocus #email="ngModel">
+                        <div [hidden]="email.valid || email.pristine"
+                            class="alert alert-danger">
+                            Email is required
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="password"  class="form-control" id="password" [(ngModel)]="model.password" name="password" placeholder="كلمة المرور" required #password="ngModel">
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block lgnBtn" type="submit" [disabled]="!loginForm.form.valid">
+                        دخول
+                    </button>
+                    <label class="checkbox pull-left">
+                            <input type="checkbox" value="remember-me">
+                            تذكرني؟
+                    </label>
+                </form> -->
+                <form [formGroup]="userLoginForm"  class="form-signin" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" 
+                             formControlName="email" name="email" placeholder="البريد الالكتروني" autofocus>
+                        @if(email?.touched && email?.invalid)
+                        {
+                            <div class="text-danger">
+                                @if(email?.errors?.['required'])
+                                {
+                                    <p>ادخل البريد الالكتروني</p>
+                                }
+                                @if(email?.errors?.['pattern'])
+                                {
+                                    <p>البريد الالكتروني غير صحيح</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                      <input type="password"  class="form-control" id="password" 
+                        formControlName="password" name="password" placeholder="كلمة المرور">
+                      @if(password?.touched && password?.invalid)
+                      {
+                          <div class="text-danger">
+                              @if(password?.errors?.['required'])
+                              {
+                                  <p>ادخل كلمة المرور </p>
+                              }
+                          </div>
+                      }
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block lgnBtn" type="submit" [disabled]="userLoginForm.invalid">
+                        دخول
+                    </button>
+                    <label class="checkbox pull-left">
+                            <input type="checkbox" value="remember-me" id="rememberMe" 
+                                name="rememberMe" formControlName="rememberMe">
+                            تذكرني؟
+                    </label>
+                </form>
+            </div>
+            <a class="text-center new-account" style="cursor: pointer;" (click)="Register()">تسجيل حساب جديد </a>
+        </div>
+    </div>
+</div>
