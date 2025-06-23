@@ -1,0 +1,70 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button hidden (click)="NewEmp()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">اضافة موظف جديد</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">بحث:</div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="filterText" />
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="emps.length">
+          <thead>
+            <tr>
+              <th>اسم الموظف</th>
+              <th>اسم المستخدم</th>
+              <th>الايميل</th>
+              <th>الموبايل</th>
+              <th>الوظيفة</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let emp of filteredEmps">
+              <td>{{ emp.name }}</td>
+              <td>{{ emp.userName }}</td>
+              <td>{{ emp.email }}</td>
+              <td>{{ emp.phone }}</td>
+              <td>{{ emp.jobName }}</td>
+              <td>
+                <button
+                  (click)="EditEmp(emp.id)"
+                  class="btn btn-primary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تعديل
+                </button>
+                <button
+                  (click)="EmpBalance(emp.id)"
+                  class="btn btn-secondary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  كشف حساب
+                </button>
+                <button
+                  (click)="EditEmpPassword(emp.id)"
+                  class="btn btn-warning"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تغيير كلمة المرور
+                </button>
+                <button hidden
+                  (click)="DeleteEmp(emp)"
+                  class="btn btn-danger"
+                  style="margin:0 !important;"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

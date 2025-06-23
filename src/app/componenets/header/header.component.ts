@@ -5,19 +5,25 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { languageAction } from '../../store/language/language.action';
 import { Observable } from 'rxjs';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
   isUserLoggedIn!: boolean;
-  language$:Observable<string>
-  currentLang!:string
+  language$:Observable<string>;
+  currentLang!:string;
+  currentRole!:string;
+ 
 
-  constructor(private userAuthService: UserAuthService, private router:Router
+  constructor(private userAuthService: UserAuthService
+    , private router:Router
     , private store:Store<{language:string}>) {
       this.language$ = this.store.select("language");
       this.language$.subscribe((val)=>{
@@ -29,11 +35,16 @@ export class HeaderComponent implements OnInit {
     
     this.userAuthService.getAuthSubject().subscribe({
       next: (status) => {
-        this.isUserLoggedIn = status
+        this.isUserLoggedIn = status;
+        console.log(this.userAuthService.getCurrentUserRole());
+        this.currentRole = this.userAuthService.getCurrentUserRole();
       }
     });
     
+    
     this.isUserLoggedIn = this.userAuthService.isUserLoggedIn();
+
+   
   }
 
   Logout() {

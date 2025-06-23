@@ -1,0 +1,142 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="NewOrder()" class="btn btn-primary mt-3 mx-3 " style="float:left; margin:0 !important;">اضافة
+            اوردر جديد</button>
+
+        <button (click)="OrdersComms()" class="btn btn-primary mt-3 ml-3 " style="float:left; margin:0 1rem !important;">عمولات الاوردرات</button>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-2">حالة الاوردر:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedOrderStatus">
+                    <option value="الكل">الكل</option>
+                    <option value="اوردر جديد">اوردر جديد</option>
+                    <option value="اوردر تام">اوردر تام</option>
+                    <option value="اوردر ملغي">اوردر ملغي</option>
+                    <option value="اوردر محذوف">اوردر محذوف</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">حالة الدفع:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedPaymentStatus">
+                    <option value="الكل">الكل</option>
+                    <option value="تم الدفع">تم الدفع</option>
+                    <option value="لم يتم الدفع">لم يتم الدفع</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-2">من تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="fromDate"/>
+            </div>
+
+            <div class="col-md-2">الي تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="toDate" />
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-2">البائع:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedSellerId">
+                    <option [value]="0">الكل</option>
+                    @for(seller of Sellers; track seller.id) {
+                        <option [value]="seller.id">{{seller.name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">الفني:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedTechId">
+                    <option [value]="0">الكل</option>
+                    @for(tech of Techs; track tech.id) {
+                    <option [value]="tech.id">{{tech.name}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row  mt-3">
+            <div class="col-md-2">اسم/رقم العميل:</div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" [(ngModel)]="CustomerNamePhone" />
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <button (click)="getAllOrders()"
+                    class="btn btn-success mt-2" style="width: 100%;">بحث</button>
+            </div>
+
+        </div>
+
+        <div class="table-responsive mt-4">
+            <table class="table" *ngIf="orders.length">
+                <thead>
+                    <tr>
+                        <th>رقم الاوردر</th>
+                        <th>تاريخ الاضافة</th>
+                        <th>حالة الاوردر</th>
+                        <th>تاريخ التركيب</th>
+                        <th>العميل</th>
+                        <th>الاجمالي</th>
+                        <th>حالة الدفع</th>
+                        <th>البائع</th>
+                        <th>الفني</th>
+                        <th>الملاحظات</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of filteredOrders">
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.orderDate | date:'medium'}}</td>
+                        <td>
+                            <button class="btn"
+                                [ngClass]="{
+                                    'btn-outline-success': order.orderStatus === 'اوردر تام',
+                                    'btn-outline-danger': order.orderStatus === 'اوردر ملغي',
+                                    'btn-outline-primary': order.orderStatus === 'اوردر جديد',
+                                    'btn-outline-secondary': order.orderStatus === 'اوردر محذوف'
+                                }">
+                                {{ order.orderStatus }}
+                            </button>
+                        </td>
+                        <td>{{ order.installDate | date:'medium' }}</td>
+                        <td>{{ order.customerName }}</td>
+                        <td>{{ order.orderTotal }}</td>
+                        <td>{{ order.paymentStatus }}</td>
+                        <td>{{ order.applicationUserName }}</td>
+                        <td>{{ order.techName }}</td>
+                        <td>{{ order.orderNotes }}</td>
+                        <td>
+                            <button (click)="DetailsOrder(order.id)" class="btn btn-primary" [hidden]="order.orderStatus !== 'اوردر تام' && order.orderStatus !== 'اوردر ملغي' && order.orderStatus !== 'اوردر محذوف'"
+                                style="margin:0 0.2rem !important;">
+                                تفاصيل
+                            </button>
+                            <button (click)="EditOrder(order.id)" class="btn btn-primary" [hidden]="order.orderStatus !== 'اوردر جديد'"
+                                style="margin:0 0.2rem !important;">
+                                تعديل
+                            </button>
+                            <button (click)="CompleteOrder(order.id)" class="btn btn-success" [hidden]="order.orderStatus !== 'اوردر جديد'"
+                                style="margin:0 0.2rem !important;">
+                                تتميم
+                            </button>
+                            <button (click)="CancelOrder(order.id)" class="btn btn-danger" [hidden]="order.orderStatus !== 'اوردر جديد'"
+                                style="margin:0 0.2rem !important;">
+                                الغاء
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="row mt-3">
+            <div class="col-md-2">من تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="fromDate" />
+            </div>
+            <div class="col-md-2">الي تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="toDate" />
+            </div>
+        </div>
+        <div class="col-md mt-3">
+            <button class="btn btn-primary form-control" (click)="getBalanceList()">بحث</button>
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="commsList.length">
+          <thead>
+            <tr>
+              <th>رقم العملية</th>
+              <th>نوع العملية</th>
+              <th>تاريخ العملية</th>
+              <th>الخزنة</th>
+              <th>ملاحظات</th>
+              <th>المبلغ</th>
+              <th>الرصيد</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filteredList">
+              <td>{{ item.operationId }}</td>
+              <td>{{ item.operationType }}</td>
+              <td>{{ item.operationDate | date:'medium' }}</td>
+              <td>{{ item.moneysafeName }}</td>
+              <td>{{ item.operationNotes }}</td>
+              <td>{{ item.operationTotal }}</td>
+              <td>{{ item.balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

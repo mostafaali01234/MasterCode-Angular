@@ -1,20 +1,43 @@
-<nav class="navbar navbar-expand-lg bg-primary"  data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-primary"  data-bs-theme="dark" style="z-index: 99;">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="logo1.png" alt="" width="60" height="54">
       </a>
       <!-- <a class="navbar-brand" href="#">Master Code</a> -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent"  style="border-radius: 1rem; padding: 1rem; background-color: #0e265b !important;">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" routerLink="/Home">الرئيسية</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/Categories">التصنيفات</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active" aria-current="page"routerLink="/Products">الاصناف</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/Customers">العملاء</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/Orders">الاوردرات</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/MoneySafes">الخزن</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/Expenses">المصروفات</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/Loans">السلف</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link active" aria-current="page"routerLink="/EditUserData">بيانات المستخدم</a>
+          </li> -->
+
+
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
@@ -29,14 +52,32 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li> -->
+
+          <li class="nav-item"  *ngIf="currentRole=='Admin'">
+            <a class="nav-link active" aria-current="page"routerLink="/Emps">الموظفين</a>
+          </li>
         </ul>
         <div class="d-flex">
+           <!-- <a class="btn btn-outline-light mx-4" aria-current="page"routerLink="/EditUserData">بيانات المستخدم</a> -->
+
+          <section>
+            <div class="example-button-row">
+              <div class="example-flex-container">
+                <div class="example-button-container">
+                  <a mat-fab style="border: 3px solid white; border-radius: 2rem; background: #0e265b;" aria-current="page"routerLink="/EditUserData">
+                    <mat-icon>person</mat-icon>
+                  </a> 
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
           
           <a class="btn btn-outline-light" routerLink="/Login" [hidden]="isUserLoggedIn">تسجيل الدخول</a>
           <a class="btn btn-outline-light" routerLink="/Home"  (click)="Logout()" [hidden]="!isUserLoggedIn">تسجيل الخروج</a>
         
-          <button class="btn btn-secondary" (click)="changeLang()">تغيير اللغة</button>
+          <button hidden class="btn btn-secondary" (click)="changeLang()">تغيير اللغة</button>
           <!-- <a class="btn btn-outline-primary" routerLink="/Login">
             <span *ngIf="!isUserLoggedIn">Login</span>
             <span *ngIf="isUserLoggedIn">Logout</span>

@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="ExpensesPage()" class="btn btn-primary mt-3 mx-3 mr-3" 
+        style="float:left; margin:0 !important;">كشف المصروفات</button>
+        <button (click)="NewExpenseType()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">اضافة نوع مصروف جديد</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">بحث:</div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="filterText" />
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="expenseTypes.length">
+          <thead>
+            <tr>
+              <th>اسم نوع المصروف</th>
+              <th>الوصف</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expenseType of filteredExpenseTypes">
+              <td>{{ expenseType.name }}</td>
+              <td>{{ expenseType.description }}</td>
+              <td>
+                <button
+                  (click)="EditExpenseType(expenseType.id)"
+                  class="btn btn-primary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تعديل
+                </button>
+                <button
+                  (click)="DeleteExpenseType(expenseType)"
+                  class="btn btn-danger"
+                  style="margin:0 !important;"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

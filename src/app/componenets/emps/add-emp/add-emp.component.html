@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ title }} </h2>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md">
+                <form (submit)="EditInfo()">
+                    <div class="row">
+                         <div class="form-group mt-3 col-md-6">
+                            <label for="name">اسم الموظف</label>
+                            <input type="text" [(ngModel)]="userData.name" required class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group mt-3 col-md-6">
+                            <label for="name">رقم الموبايل</label>
+                            <input type="text" [(ngModel)]="userData.phone" required class="form-control" id="phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mt-3 col-md-6">
+                            <label for="name">البريد الالكتروني</label>
+                            <input type="email" [(ngModel)]="userData.email" required class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group mt-3 col-md-6">
+                            <label for="name">اسم المستخدم</label>
+                            <input type="text" [(ngModel)]="userData.userName" required class="form-control" id="userName"
+                                name="userName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mt-3 col-md-6">
+                            <label for="name">الوظيفة</label>
+                            <select class="form-control"  [(ngModel)]="userData.jobId" required id="job" name="job">
+                                @for(job of jobs;track job.id)
+                                {
+                                    <option [value]="job.id">{{job.name}}</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group mt-3 col-md-6">
+                            <label for="name">الصلاحية</label>
+                            <select class="form-control"  [(ngModel)]="userData.roleId" required id="role" name="role">
+                                @for(role of roles;track role.id)
+                                {
+                                    <option [value]="role.id">{{role.name}}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                   
+                    
+                    <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>

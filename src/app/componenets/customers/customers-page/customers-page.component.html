@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="NewCustomer()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">اضافة عميل جديد</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">بحث:</div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="filterText" />
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="customers.length">
+          <thead>
+            <tr>
+              <th>اسم العميل</th>
+              <th>الموبايل</th>
+              <th>العنوان</th>
+              <th>الحساب</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of filteredCustomers">
+              <td>{{ customer.customerName }}</td>
+              <td>{{ customer.customerPhoneNumber }}</td>
+              <td>{{ customer.customerAddress }}</td>
+              <td>{{ customer.addedUserName }}</td>
+              <td>
+                <button
+                  (click)="EditCustomer(customer.id)"
+                  class="btn btn-primary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تعديل
+                </button>
+                <button
+                  (click)="CustomerBalance(customer.id)"
+                  class="btn btn-secondary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  كشف حساب
+                </button>
+                <button
+                  (click)="DeleteCustomer(customer)"
+                  class="btn btn-danger"
+                  style="margin:0 !important;"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

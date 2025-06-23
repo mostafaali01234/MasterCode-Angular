@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md">
+                <h3>{{title2}}</h3>
+                <form (submit)="EditPassword()">
+                    <div class="form-group mt-3">
+                        <label for="name">كلمة المرور الجديدة</label>
+                        <input type="password" [(ngModel)]="userPass.password" required class="form-control" id="password"
+                            name="password">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="name">تأكيد كلمة المرور</label>
+                        <input type="password" [(ngModel)]="userPass.confirmPassword" required class="form-control"
+                            id="passwordConfirm" name="passwordConfirm">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

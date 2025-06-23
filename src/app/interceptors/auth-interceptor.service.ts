@@ -1,10 +1,12 @@
 import { HttpEventType, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { UserAuthService } from "../services/user-auth.service";
 import { tap } from "rxjs";
+import { inject, Injector } from "@angular/core";
 
 export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     let modifiedReq = req;
-    let _authService = new UserAuthService();
+    const injector = inject(Injector);
+    const _authService = injector.get(UserAuthService);
 
     // if (req.method == "POST") {
         modifiedReq = req.clone({

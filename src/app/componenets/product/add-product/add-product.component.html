@@ -1,0 +1,29 @@
+<h1>{{title}}</h1>
+<form (submit)="addNewProduct()">
+  <div class="form-group mt-3">
+    <label for="name">اسم الصنف</label>
+    <input type="text" [(ngModel)]="newProduct.title" required class="form-control" id="title" name="title">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">الوصف</label>
+    <input type="text" [(ngModel)]="newProduct.description" required class="form-control" id="description" name="description">
+  </div>
+  <div class="form-group mt-3">
+    <label for="alterEgo">السعر</label>
+    <input type="number" min="0" class="form-control" required [(ngModel)]="newProduct.price" id="price" name="price">
+  </div>
+
+  <div class="form-group mt-3">
+    <label for="power">التصنيف</label>
+    <select class="form-control"  [(ngModel)]="newProduct.categoryId" required id="category" name="category">
+        @for(cat of categories;track cat.id)
+        {
+            <option [value]="cat.id">{{cat.name}}</option>
+        }
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+
+  <button (click)="gotoProductsPage()" class="btn btn-secondary mt-3 mx-3">العودة</button>
+</form>

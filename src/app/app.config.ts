@@ -5,6 +5,8 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { authInterceptor } from './interceptors/auth-interceptor.service';
 import { provideStore } from '@ngrx/store';
 import { languageReducer } from './store/language/languale.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { LanguageEffect } from './store/language/language.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,7 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStore({
-      language: languageReducer
-    })
+        language: languageReducer
+    }),
+    provideEffects([LanguageEffect])
 ]
 };

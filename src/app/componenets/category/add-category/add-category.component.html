@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<form (submit)="addNewCategory()">
+  <div class="form-group mt-3">
+    <label for="name">اسم التصنيف</label>
+    <input type="text" [(ngModel)]="newCategory.name" required class="form-control" id="name" name="name">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">الوصف</label>
+    <input type="text" [(ngModel)]="newCategory.description" required class="form-control" id="description" name="description">
+  </div>
+
+  <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+
+  <button (click)="gotoCategoriesPage()" class="btn btn-secondary mt-3 mx-3">العودة</button>
+</form>

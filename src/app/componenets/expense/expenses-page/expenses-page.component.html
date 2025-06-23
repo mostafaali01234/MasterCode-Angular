@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="ExpenseTypesPage()" class="btn btn-primary mt-3 mx-3 "
+            style="float:left; margin:0 !important;">انواع المصروفات</button>
+        <button (click)="NewExpense()" class="btn btn-primary mt-3 mx-3 " style="float:left; margin:0 !important;">اضافة
+            مصروف جديد</button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">نوع المصروف:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedExpenseTypeId" (change)="getAllExpenses()">
+                    <option [value]="0">الكل</option>
+                    @for(cat of ExpenseTypes;track cat.id)
+                    {
+                        <option [value]="cat.id">{{cat.name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">الموظف:</div>
+            <div class="col-md-4">
+                <select class="form-control" [(ngModel)]="selectedEmpId" (change)="getAllExpenses()">
+                    <option [value]="0">الكل</option>
+                    @for(cat of Emps;track cat.id)
+                    {
+                    <option [value]="cat.id">{{cat.name}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-2">من تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="fromDate" (change)="getAllExpenses()" />
+            </div>
+            <div class="col-md-2">الي تاريخ:</div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" [(ngModel)]="toDate" (change)="getAllExpenses()" />
+            </div>
+        </div>
+        <div class="row mt-3">
+
+        </div>
+        <div class="table-responsive mt-4">
+            <table class="table" *ngIf="expenses.length">
+                <thead>
+                    <tr>
+                        <th>نوع المصروف</th>
+                        <th>التاريخ</th>
+                        <th>المبلغ</th>
+                        <th>الموظف</th>
+                        <th>الخزنة</th>
+                        <th>الملاحظات</th>
+                        <th>المدخل</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let expense of filteredExpenses">
+                        <td>{{ expense.expenseType }}</td>
+                        <td>{{ expense.date | date:'medium'}}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.emp }}</td>
+                        <td>{{ expense.moneySafe }}</td>
+                        <td>{{ expense.notes }}</td>
+                        <td>{{ expense.applicationUser }}</td>
+                        <td>
+                            <button (click)="EditExpense(expense.id)" class="btn btn-primary"
+                                style="margin:0 0.5rem !important;">
+                                تعديل
+                            </button>
+                            <button (click)="DeleteExpense(expense)" class="btn btn-danger"
+                                style="margin:0 !important;">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

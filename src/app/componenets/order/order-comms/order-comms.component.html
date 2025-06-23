@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">رقم الاوردر:</div>
+        <div class="col-md-4">
+          <input type="number" min="0" class="form-control" [(ngModel)]="orderId" />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" (click)="getCommsByOrderId()">بحث</button>
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="commsList.length">
+          <thead>
+            <tr>
+              <th>رقم الاوردر</th>
+              <th>تاريخ التركيب</th>
+              <th>اجمالي الاوردر</th>
+              <th>اسم الموظف</th>
+              <th>العمولة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filteredList">
+              <td>{{ item.orderId }}</td>
+              <td>{{ item.installDate | date:'medium' }}</td>
+              <td>{{ item.orderTotal }}</td>
+              <td>{{ item.empName }}</td>
+              <td>{{ item.comm }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

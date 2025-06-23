@@ -4,13 +4,14 @@ import { HeaderComponent } from "./componenets/header/header.component";
 import { FooterComponent } from "./componenets/footer/footer.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDirective } from './directives/onlynumber.directive';
+import { NumbersOnlyDirectiveDirective } from './directives/numbers-only-directive.directive';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent,ReactiveFormsModule, AsyncPipe, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule, NumbersOnlyDirectiveDirective, NumberDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

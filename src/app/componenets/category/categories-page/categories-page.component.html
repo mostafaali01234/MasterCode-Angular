@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="NewCategory()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">اضافة تصنيف جديد</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">بحث:</div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="filterText" />
+        </div>
+      </div>
+      
+      <div class="table-responsive mt-4">
+        <table class="table" *ngIf="categories.length">
+          <thead>
+            <tr>
+              <th>اسم التصنيف</th>
+              <th>الوصف</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of filteredCategories">
+              <td>{{ category.name }}</td>
+              <td>{{ category.description }}</td>
+              <td>
+                <button
+                  (click)="EditCategory(category.id)"
+                  class="btn btn-primary"
+                  style="margin:0 0.5rem !important;"
+                >
+                  تعديل
+                </button>
+                <button
+                  (click)="DeleteCategory(category)"
+                  class="btn btn-danger"
+                  style="margin:0 !important;"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,36 @@
+<h1>{{title}}</h1>
+<form (submit)="addNewLoan()">
+    <div class="form-group mt-3">
+      <label for="name">الموظف</label>
+      <select class="form-control"  [(ngModel)]="newLoan.empId" required id="empId" name="empId">
+          @for(cat of users;track cat.id)
+          {
+              <option [value]="cat.id">{{cat.name}}</option>
+          }
+      </select>
+    </div>
+  <div class="form-group mt-3">
+    <label for="name">المبلغ</label>
+    <input type="number" min="0" [(ngModel)]="newLoan.amount" required class="form-control" id="amount" name="amount">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">التاريخ</label>
+    <input type="date" [(ngModel)]="newLoan.date" required class="form-control" id="date" name="date">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">الخزنة</label>
+    <select class="form-control"  [(ngModel)]="newLoan.moneySafeId" required id="moneySafeId" name="moneySafeId">
+        @for(cat of moneysafes;track cat.id)
+        {
+            <option [value]="cat.id">{{cat.name}}</option>
+        }
+    </select>
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">الملاحظات</label>
+    <input type="text" [(ngModel)]="newLoan.notes"  class="form-control" id="notes" name="notes">
+  </div>
+  <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+
+  <button (click)="gotoLoansPage()" class="btn btn-secondary mt-3 mx-3">العودة</button>
+</form>

@@ -1,0 +1,19 @@
+<h1>{{title}}</h1>
+<form (submit)="addNewCustomer()">
+  <div class="form-group mt-3">
+    <label for="name">اسم العميل</label>
+    <input type="text" [(ngModel)]="newCustomer.customerName" required class="form-control" id="customerName" name="customerName">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">الموبايل</label>
+    <input type="text" appNumbersOnly [(ngModel)]="newCustomer.customerPhoneNumber" required class="form-control" id="customerPhoneNumber" name="customerPhoneNumber">
+  </div>
+  <div class="form-group mt-3">
+    <label for="name">العنوان</label>
+    <input type="text" [(ngModel)]="newCustomer.customerAddress" required class="form-control" id="customerAddress" name="customerAddress">
+  </div>
+
+  <button type="submit" class="btn btn-success mt-3">{{btnTxt}}</button>
+
+  <button (click)="gotoCustomersPage()" class="btn btn-secondary mt-3 mx-3">العودة</button>
+</form>

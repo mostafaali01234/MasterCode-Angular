@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="float:right;">{{ pageTitle }} </h2>
+        <button (click)="MoneysafesPage()" class="btn btn-primary mt-3 mx-3 " 
+        style="float:left; margin:0 !important;">كشف الخزن </button>
+    </div>
+    <div class="card-body">
+
+      <div class="row mt-3">
+        <div class="col-md-2">من تاريخ:</div>
+        <div class="col-md-4">
+          <input type="date" class="form-control" [(ngModel)]="fromDate" (change)="getAllMoves()" />
+        </div>
+      </div>
+       <div class="row mt-3">
+        <div class="col-md-2">الي تاريخ:</div>
+        <div class="col-md-4">
+          <input type="date" class="form-control" [(ngModel)]="toDate" (change)="getAllMoves()" />
+        </div>
+      </div>
+      <div class="table-responsive mt-4">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>رقم العملية</th>
+              <th>التاريخ</th>
+              <th>نوع العملية</th>
+              <th>الملاحظات</th>
+              <th>الاجمالي</th>
+              <th>الرصيد</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of filteredList">
+              <td>{{ customer.opId }}</td>
+              <td>{{ customer.opDate | date:'medium'}}</td>
+              <td>{{ customer.opType }}</td>
+              <td>{{ customer.opNotes }}</td>
+              <td>{{ customer.opTotal }}</td>
+              <td>{{ customer.balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

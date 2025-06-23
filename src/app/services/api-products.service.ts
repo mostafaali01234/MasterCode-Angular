@@ -13,7 +13,7 @@ export class ApiProductsService {
   constructor(private httpClient: HttpClient, private _userAuthService: UserAuthService) { }
 
   getAllProducts(): Observable<IProduct[]> {
-    return this.httpClient.get<IProduct[]>(`${environment.baseUrl}/products`,
+    return this.httpClient.get<IProduct[]>(`${environment.baseUrl}/Product`,
       //   {
       //   headers: new HttpHeaders({
       //     "authorization": this._userAuthService.getToken()
@@ -23,7 +23,13 @@ export class ApiProductsService {
   }
 
   getProductById(id: number): Observable<IProduct> {
-    return this.httpClient.get<IProduct>(`${environment.baseUrl}/products/${id}`)
+    return this.httpClient.get<IProduct>(`${environment.baseUrl}/Product/${id}`)
+  }
+
+  getProductByName(searchText: string): Observable<IProduct> {
+    return this.httpClient.get<IProduct>(`${environment.baseUrl}/Product/GetProductByName`, {
+      params: new HttpParams().set('searchText', searchText)
+    })
   }
 
   getProductsByCatId(catId: number): Observable<IProduct[]> {
@@ -31,21 +37,21 @@ export class ApiProductsService {
     searchParams = searchParams.append('catId', catId);
     searchParams = searchParams.append('limit', 10);
 
-    return this.httpClient.get<IProduct[]>(`${environment.baseUrl}/products`, {
+    return this.httpClient.get<IProduct[]>(`${environment.baseUrl}/Product`, {
       params: searchParams
     })
   }
 
   createProduct(product: IProduct): Observable<IProduct> {
-    return this.httpClient.post<IProduct>(`${environment.baseUrl}/products`, product)
+    return this.httpClient.post<IProduct>(`${environment.baseUrl}/Product`, product)
   }
 
   updateProduct(product: IProduct): Observable<IProduct> {
-    return this.httpClient.put<IProduct>(`${environment.baseUrl}/products/${product.id}`, product)
+    return this.httpClient.put<IProduct>(`${environment.baseUrl}/Product/${product.id}`, product)
   }
 
   deleteProduct(id: number) {
-    return this.httpClient.delete(`${environment.baseUrl}/products/${id}`)
+    return this.httpClient.delete(`${environment.baseUrl}/Product/${id}`)
   }
 
 }
