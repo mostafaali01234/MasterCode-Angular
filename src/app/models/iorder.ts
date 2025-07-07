@@ -1,5 +1,6 @@
 export interface IOrder {
     orderHeader:IOrderHeader,
+    orderPayment:IOrderPayment,
     orderDetailsList:IOrderDetail[]
 }
 export interface IOrderHeader {
@@ -24,4 +25,20 @@ export interface IOrderDetail {
     count:number,
     price:number,
     totalPrice:number,
+}
+export interface IOrderComplete {
+    orderId:number,
+    paid:number,
+    moneySafeId:number,
+    TechId:string,
+    CompleteDate:Date,
+}
+export interface IOrderPayment {
+    id:number,
+    orderHeaderId:number,
+    moneySafeId:number,
+    moneySafeName:string,
+    amount:number,
+    date:Date,
+    addedUserName:string,
 }

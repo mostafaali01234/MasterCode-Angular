@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiOrderService } from '../../../services/Order/api-order.service';
 import { ApiUserService } from '../../../services/User/api-user.service';
 import { Router } from '@angular/router';
-import { IOrderHeader } from '../../../models/iorder';
+import { IOrderHeader, IOrderComplete } from '../../../models/iorder';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -20,21 +20,24 @@ export class OrdersPageComponent implements OnInit {
   filteredOrders: IOrderHeader[] = [];
   pageTitle: string = (this.currentLang == "ar" ? 'قايمة الاوردرات' : 'Orders List');
   CustomerNamePhone: string = "";
+  OrderNo: number = 0;
   selectedTechId: string = "0";
   selectedSellerId: string = "0";
   selectedOrderStatus: string = "الكل";
   selectedPaymentStatus: string = "الكل";
   fromDate: Date = new Date();
   toDate: Date = new Date();
-  Techs: IUserSelect[] = []; 
-  Sellers: IUserSelect[] = []; 
+  Techs: IUserSelect[] = [];
+  Sellers: IUserSelect[] = [];
+  CompleteOrderList: IOrderComplete = {} as IOrderComplete;
 
-  constructor(private _ApiOrderService: ApiOrderService, private router: Router ,private _ApiUserService: ApiUserService) {
+  constructor(private _ApiOrderService: ApiOrderService, private router: Router, private _ApiUserService: ApiUserService) {
     console.log(this.pageTitle)
   }
 
   ngOnInit() {
     this.getAllData();
+    this.CompleteOrderList = {} as IOrderComplete;
   }
 
   getAllData() {
@@ -53,16 +56,16 @@ export class OrdersPageComponent implements OnInit {
 
   getAllOrders() {
     this._ApiOrderService.getAllOrders(this.fromDate, this.toDate, this.selectedSellerId, this.selectedTechId
-                                      , this.CustomerNamePhone, this.selectedOrderStatus, this.selectedPaymentStatus).subscribe({
-      next: (result) => {
-        console.log(result);
-        this.orders = result;
-        this.filteredOrders = this.orders;
-      },
-      error: (error) => {
-        console.log(error)
-      }
-    })
+      , this.CustomerNamePhone, this.selectedOrderStatus, this.selectedPaymentStatus, this.OrderNo).subscribe({
+        next: (result) => {
+          console.log(result);
+          this.orders = result;
+          this.filteredOrders = this.orders;
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
   }
 
 
@@ -74,7 +77,12 @@ export class OrdersPageComponent implements OnInit {
     this.router.navigate(['/AddOrder']);
   }
 
+
   CompleteOrder(id: number) {
+    this.router.navigate(['/CompleteOrder/' + id]);
+  }
+
+  EditCompletedOrder(id: number) {
     this.router.navigate(['/CompleteOrder/' + id]);
   }
 

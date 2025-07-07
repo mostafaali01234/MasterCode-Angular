@@ -29,6 +29,7 @@ import { UserBalanceComponent } from './componenets/user/user-balance/user-balan
 import { EmpsComponent } from './componenets/emps/emps/emps.component';
 import { AddEmpComponent } from './componenets/emps/add-emp/add-emp.component';
 import { EditEmpPassAdminComponent } from './componenets/emps/edit-emp-pass-admin/edit-emp-pass-admin.component';
+import { CompleteOrderComponent } from './componenets/order/complete-order/complete-order.component';
 
 
 export const routes: Routes = [
@@ -38,6 +39,7 @@ export const routes: Routes = [
     {path: 'Orders', component: OrdersPageComponent, canActivate: [authGuard]},
     {path: 'AddOrder', component: AddOrderComponent, canActivate: [authGuard]},
     {path: 'OrderComms', component: OrderCommsComponent, canActivate: [authGuard]},
+    {path: 'CompleteOrder/:id', component: CompleteOrderComponent, canActivate: [authGuard]},
     {path: 'AddOrder/:id', component: AddOrderComponent, canActivate: [authGuard]},
     {path: 'OrderDetails/:id', component: OrderDetailsComponent, canActivate: [authGuard]},
 

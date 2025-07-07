@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IOrder, IOrderDetail, IOrderHeader } from '../../../models/iorder';
+import { IOrder, IOrderDetail, IOrderHeader, IOrderPayment } from '../../../models/iorder';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -84,6 +84,7 @@ export class AddOrderComponent implements OnInit {
   ngOnInit() {
     this.newOrder = {
       orderHeader: {} as IOrderHeader,
+      orderPayment: {} as IOrderPayment,
       orderDetailsList: []
     } as IOrder;
     this.newOrder.orderHeader.orderDate = new Date();

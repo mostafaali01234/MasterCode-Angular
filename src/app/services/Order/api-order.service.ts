@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { IOrderHeader, IOrder } from '../../models/iorder';
+import { IOrderHeader, IOrder, IOrderComplete } from '../../models/iorder';
 import { UserAuthService } from '../user-auth.service';
 import { formatDate } from '@angular/common';
 import { ICommission } from '../../models/icommission';
@@ -17,7 +17,7 @@ export class ApiOrderService {
   getAllOrders(fromCreateDate: Date, toCreateDate: Date
     // , fromInstallDate: Date, toInstallDate: Date
     , selectedSellerId: string, selectedTechId: string, selectedCustomerName: string
-    , selectedOrderStatus: string, selectedPaymentStatus: string): Observable<IOrderHeader[]> {
+    , selectedOrderStatus: string, selectedPaymentStatus: string, OrderNo: number): Observable<IOrderHeader[]> {
 
     let fromdatestring = formatDate(fromCreateDate, 'yyyy-MM-dd', 'en_US');
     let todatestring = formatDate(toCreateDate, 'yyyy-MM-dd', 'en_US');
@@ -31,6 +31,7 @@ export class ApiOrderService {
     searchParams = searchParams.append('selectedCustomerName', selectedCustomerName);
     searchParams = searchParams.append('selectedOrderStatus', selectedOrderStatus);
     searchParams = searchParams.append('selectedPaymentStatus', selectedPaymentStatus);
+    searchParams = searchParams.append('OrderNo', (OrderNo == null ? 0 : OrderNo).toString());
 
     return this.httpClient.get<IOrderHeader[]>(`${environment.baseUrl}/Order`,
       {
@@ -44,7 +45,7 @@ export class ApiOrderService {
   }
 
   getOrderComms(id: number): Observable<ICommission[]> {
-     let searchParams = new HttpParams();
+    let searchParams = new HttpParams();
     searchParams = searchParams.append('orderId', id);
     return this.httpClient.get<ICommission[]>(`${environment.baseUrl}/Order/GetOrderComms`,
       {
@@ -55,6 +56,14 @@ export class ApiOrderService {
 
   cancelOrder(id: number) {
     return this.httpClient.post<any>(`${environment.baseUrl}/order/CancelOrder`, id)
+  }
+
+  completeOrder(list: IOrderComplete) {
+    return this.httpClient.post<IOrderComplete>(`${environment.baseUrl}/order/CompleteOrder`, list)
+  }
+
+  unCompleteOrder(id: number) {
+    return this.httpClient.post<any>(`${environment.baseUrl}/order/UnCompleteOrder`, id)
   }
 
   createOrder(order: IOrder): Observable<IOrder> {

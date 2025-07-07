@@ -27,7 +27,7 @@
             <tr *ngFor="let expenseType of filteredExpenseTypes">
               <td>{{ expenseType.name }}</td>
               <td>{{ expenseType.description }}</td>
-              <td>
+              <td style="display: flex;">
                 <button
                   (click)="EditExpenseType(expenseType.id)"
                   class="btn btn-primary"

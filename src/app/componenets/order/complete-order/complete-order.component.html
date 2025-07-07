@@ -1,0 +1,96 @@
+<h1>{{pageTitle}}</h1>
+<form (submit)="completeOrder()">
+    <div class="row">
+        <div class="form-group mt-3 col-6">
+            <label for="name">رقم الاوردر</label>
+            <input disabled type="number" min="0" [(ngModel)]="newOrder.orderHeader.id" required class="form-control"
+                id="orderHeaderId" name="orderHeaderId">
+        </div>
+        <div class="form-group mt-3 col-6">
+            <label for="name">تاريخ الاوردر</label>
+             <input disabled type="date" [ngModel]="newOrder.orderHeader.orderDate | date:'yyyy-MM-dd'" (ngModelChange)="newOrder.orderHeader.orderDate = $event" required class="form-control"
+                id="orderDate" name="orderDate">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mt-3 col-6">
+            <label for="name">اسم العميل</label>
+            <input disabled type="text" [(ngModel)]="newOrder.orderHeader.customerName" required class="form-control"
+                id="customerName" name="customerName">
+        </div>
+        <div class="form-group mt-3 col-6">
+            <label for="name">البائع</label>
+            <input disabled type="text" [(ngModel)]="newOrder.orderHeader.applicationUserName" required
+                class="form-control" id="applicationUserName" name="applicationUserName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mt-3 col-6">
+            <label for="name">اجمالي الاوردر</label>
+            <input disabled type="number" min="0" [(ngModel)]="newOrder.orderHeader.orderTotal" required
+                class="form-control" id="orderTotal" name="orderTotal">
+        </div>
+        <div class="form-group mt-3 col-6">
+            <label for="name">ملاحظات الاوردر</label>
+            <input disabled type="text" [(ngModel)]="newOrder.orderHeader.orderNotes" required
+                class="form-control" id="orderNotes" name="orderNotes">
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="form-group mt-3 col-6">
+            <label for="name">تاريخ التتميم</label>
+            <!-- <input type="date" [(ngModel)]="completeDate" required class="form-control" id="date" name="date"> -->
+            <input type="date" [ngModel]="completeDate | date:'yyyy-MM-dd'" (ngModelChange)="completeDate = $event" required class="form-control"
+                id="completeDate" name="completeDate">
+        </div>
+        <div class="form-group mt-3 col-6">
+            <label for="name">فني التركيب</label>
+            <select class="form-control" [(ngModel)]="selectedTechId" required id="empId" name="empId">
+                @for(cat of Techs;track cat.id)
+                {
+                <option [value]="cat.id">{{cat.name}}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group mt-3 col-6">
+            <label for="name">المبلغ المدفوع</label>
+            <input type="number" min="0" [(ngModel)]="Paid" required class="form-control" id="amount" name="amount">
+        </div>
+        <div class="form-group mt-3 col-6">
+            <label for="name">الخزنة</label>
+            <select class="form-control" [(ngModel)]="selectedMoneysafeId" required id="expenseTypeId"
+                name="expenseTypeId">
+                @for(cat of moneysafes;track cat.id)
+                {
+                <option [value]="cat.id">{{cat.name}}</option>
+                }
+            </select>
+        </div>
+
+    </div>
+
+    <!-- <div class="form-group mt-3">
+        <label for="name">الملاحظات</label>
+        <input type="text" [(ngModel)]="newExpense.notes" class="form-control" id="notes" name="notes">
+    </div> -->
+    <button type="submit" class="btn btn-primary mt-3 form-control">{{btnTxt}}</button>
+
+    <div class="row mb-3">
+        <div class="col-6" [hidden]="newOrder.orderHeader.orderStatus != 'اوردر تام'">
+            <button type="button" (click)="unComplete()" class="btn btn-danger mt-3 form-control">الغاء تتميم الاوردر ومسح الدفع</button>
+        </div>
+        <div class="col-6">
+            <button type="button" (click)="cancel()" class="btn btn-secondary mt-3 form-control">العودة</button>
+        </div>
+    </div>
+    
+
+
+    
+</form>

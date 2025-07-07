@@ -34,12 +34,14 @@
         <div class="row mt-3">
             <div class="col-md-2">من تاريخ:</div>
             <div class="col-md-4">
-                <input type="date" class="form-control" [(ngModel)]="fromDate"/>
+                <!-- <input type="date" class="form-control" [(ngModel)]="fromDate"/> -->
+                <input type="date" [ngModel]="fromDate | date:'yyyy-MM-dd'" (ngModelChange)="fromDate = $event" class="form-control">
             </div>
 
             <div class="col-md-2">الي تاريخ:</div>
             <div class="col-md-4">
-                <input type="date" class="form-control" [(ngModel)]="toDate" />
+                <!-- <input type="date" class="form-control" [(ngModel)]="toDate" /> -->
+                <input type="date" [ngModel]="toDate | date:'yyyy-MM-dd'" (ngModelChange)="toDate = $event" class="form-control">
             </div>
         </div>
 
@@ -69,12 +71,18 @@
             <div class="col-md-4">
                 <input type="text" class="form-control" [(ngModel)]="CustomerNamePhone" />
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-2">رقم الاوردر:</div>
             <div class="col-md-4">
+                <input type="number" min="0"  class="form-control" [(ngModel)]="OrderNo" />
+            </div>
+
+        </div>
+
+        <div class="row  mt-3">
+            <div class="col-md">
                 <button (click)="getAllOrders()"
                     class="btn btn-success mt-2" style="width: 100%;">بحث</button>
             </div>
-
         </div>
 
         <div class="table-responsive mt-4">
@@ -116,7 +124,7 @@
                         <td>{{ order.applicationUserName }}</td>
                         <td>{{ order.techName }}</td>
                         <td>{{ order.orderNotes }}</td>
-                        <td>
+                        <td style="display: flex;">
                             <button (click)="DetailsOrder(order.id)" class="btn btn-primary" [hidden]="order.orderStatus !== 'اوردر تام' && order.orderStatus !== 'اوردر ملغي' && order.orderStatus !== 'اوردر محذوف'"
                                 style="margin:0 0.2rem !important;">
                                 تفاصيل
@@ -124,6 +132,10 @@
                             <button (click)="EditOrder(order.id)" class="btn btn-primary" [hidden]="order.orderStatus !== 'اوردر جديد'"
                                 style="margin:0 0.2rem !important;">
                                 تعديل
+                            </button>
+                            <button (click)="EditCompletedOrder(order.id)" class="btn btn-primary" [hidden]="order.orderStatus !== 'اوردر تام'"
+                                style="margin:0 0.2rem !important;">
+                                تعديل التتميم
                             </button>
                             <button (click)="CompleteOrder(order.id)" class="btn btn-success" [hidden]="order.orderStatus !== 'اوردر جديد'"
                                 style="margin:0 0.2rem !important;">
