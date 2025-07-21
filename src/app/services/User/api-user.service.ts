@@ -19,6 +19,11 @@ export class ApiUserService {
     )
   }
 
+  getAllUsersChat(): Observable<IUserSelect[]> {
+    return this.httpClient.get<IUserSelect[]>(`${environment.baseUrl}/Account/getAllUsersChat`,
+    )
+  }
+
   getUserById(id: string): Observable<IUserEditInfo> {
 
     let searchParams = new HttpParams();

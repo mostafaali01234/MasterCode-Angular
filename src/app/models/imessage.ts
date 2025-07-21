@@ -6,3 +6,11 @@ export interface IPublicMessage {
     senderName:string,
     time:Date
 }
+export interface IPrivateMessage {
+    id:number,
+    message:string,
+    senderId:string,
+    receiverId:string,
+    time:Date,
+    seen:boolean,
+}

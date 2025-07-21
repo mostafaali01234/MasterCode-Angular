@@ -23,14 +23,16 @@
 
                 <ul class="nav nav-tabs" style="background-color:#e6e9f0" role="tablist" id="ulroomTabs">
                     <li class="nav-item w-25" role="presentation" *ngFor="let room of rooms">
-                        <a class="nav-link text-center {{selectedChatRoomId == room.id ? 'active' : ''}}" id='room{{room.name}}-tab' data-bs-toggle="tab"
-                            href='#room{{room.id}}' role="tab"  (aria-controls)="'room' + room.id" aria-selected="true" (click)="LoadRoomMessages(room.id)">
-                            {{room.name}} 
-                            <i class="bi bi-trash text-danger deleteRoom mx-3" (click)="deleteRoom(room.id,room.name)"></i>
+                        <a class="nav-link text-center {{selectedChatRoomId == room.id ? 'active' : ''}}"
+                            id='room{{room.name}}-tab' data-bs-toggle="tab" href='#room{{room.id}}' role="tab"
+                            (aria-controls)="'room' + room.id" aria-selected="true" (click)="LoadRoomMessages(room.id)">
+                            {{room.name}}
+                            <i class="bi bi-trash text-danger deleteRoom mx-3"
+                                (click)="deleteRoom(room.id,room.name)"></i>
                         </a>
                     </li>
-                    <li class="nav-item w-25" disabled id="liaddnewRoom" (click)="addnewRoom()" style="width: 6% !important;"
-                        role="presentation">
+                    <li class="nav-item w-25" disabled id="liaddnewRoom" (click)="addnewRoom()"
+                        style="width: 6% !important;" role="presentation">
                         <a class="nav-link text-cente" data-bs-toggle="tab" href="#" role="tab" aria-controls="roomAdd"
                             aria-selected="true">
                             <i class="bi bi-plus-lg bg-white text-black px-2"></i>
@@ -40,7 +42,8 @@
 
                 <div class="tab-content" style="height:400px;background-color:#fff;" id="divRooms">
 
-                    <div class="tab-pane h-100 fade {{selectedChatRoomId == item.id ? 'show active' : ''}}" id="room{{item.id}}" role="tabpanel" *ngFor="let item of rooms"
+                    <div class="tab-pane h-100 fade {{selectedChatRoomId == item.id ? 'show active' : ''}}"
+                        id="room{{item.id}}" role="tabpanel" *ngFor="let item of rooms"
                         (aria-labelledby)="'room' + item.id + '-tab'">
                         <div class="container  h-100">
                             <div class="row h-100 flex-column p-3">
@@ -54,11 +57,13 @@
                                                     <p style="margin-bottom: 0px; display: flex;">
                                                         <i role="button" class="bi bi-arrow-left-circle text-primary" [hidden]="msg.senderId == currentUser"></i>
                                                         <!-- <i role="button" class="bi bi-arrow-right-circle text-primary" (click)="openPrivateChat(msg.senderId,msg.senderName)"></i> -->
-                                                        <span style="margin-right: 0.5rem; color: grey;"> {{msg.senderName}}</span>
+                                                        <span style="margin-right: 0.5rem; color: grey;">
+                                                            {{msg.senderName}}</span>
                                                         <span style="margin-right: 0.2rem;">:</span>
                                                         <span style="margin-right: 0.5rem;">{{msg.message}}</span>
                                                     </p>
-                                                    <p style="font-size: 0.8rem; color: grey;">{{msg.time | date:'medium'}}</p>
+                                                    <p style="font-size: 0.8rem; color: grey;">{{msg.time |
+                                                        date:'medium'}}</p>
                                                 </div>
                                             </li>
 
@@ -73,14 +78,13 @@
                                             <label for="inputMessage{{item.id}}" class="col-form-label">الرسالة</label>
                                         </div>
                                         <div class="col">
-                                            <input type="text" id="inputMessage{{item.id}}" [(ngModel)]="publicMessage" class="form-control">
+                                            <input type="text" id="inputMessage{{item.id}}" [(ngModel)]="publicMessage"
+                                                class="form-control">
                                         </div>
                                         <div class="col-auto">
-                                            <button type="button" id="btnMessage{{item.id}}" 
+                                            <button type="button" id="btnMessage{{item.id}}"
                                                 [disabled]="publicMessage == '' || publicMessage == null"
-                                                (click)="sendpublicMessage(item.id)"
-                                                class="btn btn-primary"
-                                                >ارسال
+                                                (click)="sendpublicMessage(item.id)" class="btn btn-primary">ارسال
                                             </button>
                                         </div>
                                     </div>
@@ -95,9 +99,91 @@
             </div>
             <div class="tab-pane fade" id="privatetabbox" role="tabpanel" aria-labelledby="private-tab">
                 <!-- @await Html.PartialAsync("_PrivateChat",Model) -->
+                <div style="height:450px;">
+                    <div class="h-100 row" style="overflow: hidden;">
+                        <div class="col-md-4 col-6">
+                            <div class="h-100 p-2" style="background-color:#e6e9f0">
+                                <div class="h-100 rounded border border-dark" style="overflow: hidden;">
+                                    <div style="overflow-y:auto; max-height:400px">
+                                        <input type="hidden" id="hdchatUserId" value="" />
+                                        <div class="list-group p-2" id="list-tab" role="tablist">
+                                            <input type="hidden" id="hdchatUserId" [value]="selectedChatUserId" />
+                                            <!-- @foreach(var item in Model.Users) -->
+                                            <a class="list-group-item list-group-item-action {{selectedChatUserId == user.id ? 'active' : ''}}"  *ngFor="let user of users"
+                                                        id="list+{{user.id}}+list" data-bs-toggle="list"
+                                                        href="#list-{{user.id}}" role="tab" (click)="setchatuserId(user.id)"
+                                                        (aria-controls)="'list-' + user.id">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        {{user.name}}
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="block-text align-middle bg-success rounded-circle d-none"
+                                                            id="spanOnline{{user.id}}" style="margin-left:5px;"
+                                                            title="Online">
+                                                        </i>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-6">
+                            <div class="rounded h-100" style="background-color:#e6e9f0">
+                                <div class="row h-100 flex-column" style="overflow:hidden;">
+                                    <div class="d-flex flex-fill pt-3 px-4">
+                                        <div class="d-block border border-dark rounded w-100 h-100">
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <!-- @foreach(var item in Model.Users) -->
+                                                <div class="tab-pane fade {{selectedChatUserId == user.id ? 'show active' : ''}}" id="list-{{user.id}}" role="tabpanel" 
+                                                    *ngFor="let user of users"
+                                                    (aria-labelledby)="'list+' + user.id + '+list'">
+                                                    <div style="overflow: hidden;">
+                                                        <div class="d-block px-2 pb-2"
+                                                            style="overflow-y:auto; max-height:360px">
+                                                            <ul style="list-style-type:none; margin-top: 1rem;" id="ulmessagesList{{user.id}}">
+                                                                    <li *ngFor="let msg of privateMessages">
+                                                                        <p class="{{msg.senderId == currentUser ? 'alert px-2 mb-0 alert-primary' : 'alert px-2 mb-0 ms-1 alert-info text-start'}}"
+                                                                            [style]="msg.senderId == currentUser ? 'width:80%;' : 'width:80%; margin-right: 20%;'">
+                                                                            <span [hidden]="msg.senderId == currentUser" style="overflow: auto;"> {{msg.message}} </span>
+                                                                            <i role="button" class="bi bi-arrow-left-circle text-primary" [hidden]="msg.senderId != currentUser"></i>
+                                                                            <i role="button" class="bi bi-arrow-right-circle text-primary" [hidden]="msg.senderId == currentUser"></i>
+                                                                            <span [hidden]="msg.senderId != currentUser" style="overflow: auto;"> {{msg.message}} </span>
+                                                                           
+                                                                        </p>
+                                                                        <p class="mb-1 {{msg.senderId == currentUser ? 'text-end' : 'text-start'}}" style="font-size: 0.8rem; color: grey;">{{msg.time | date:'medium'}}</p>
+                                                                    </li>
 
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End of foreach -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column p-4">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <label for="inputMessagePrivate" class="col-form-label">الرسالة</label>
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" id="inputMessagePrivate"  [(ngModel)]="privateMessage" class="form-control">
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button" disabled id="btnMessagePrivate"   [disabled]="privateMessage == '' || privateMessage == null"
+                                                    (click)="sendprivateMessage()" class="btn btn-primary">ارسال</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </div>

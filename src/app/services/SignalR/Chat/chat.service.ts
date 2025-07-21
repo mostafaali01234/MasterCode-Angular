@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { UserAuthService } from "../../../services/user-auth.service";
 import { IChatRoom, IChatUser } from '../../../models/ichatroom';
-import { IPublicMessage } from '../../../models/imessage';
+import { IPublicMessage, IPrivateMessage } from '../../../models/imessage';
 
 @Injectable({
   providedIn: 'root'
@@ -66,13 +66,32 @@ export class ChatService {
       });
     });
   }
+  public privateMessagesListener(): Observable<any> {
+    return new Observable<any>((observer) => {
+      this.hubConnection.on('populatePrivateChat', (senderId: string, receiverId: string, messagesList: IPrivateMessage[]) => {
+        let list = {
+          messagesList: messagesList,
+          senderId: senderId,
+          receiverId: receiverId
+        };
+        console.log( list);
+        observer.next(list);
+      });
+    });
+  }
 
   ///Add -----------------------------
-  
   public receiveAddRoom = (roomName: string) => {
     this.hubConnection.send('SendAddRoom', 4, roomName)
     .catch(err => console.error(err));
   }
+  
+  
+  public SendPrivateMessage = (receiverId: string, privateMessage: string) => {
+    this.hubConnection.send('SendPrivateMessage', receiverId, privateMessage, '')
+    .catch(err => console.error(err));
+  }
+  
   
   
   public SendPublicMessage = (publicMessage: string, roomId: number) => {
@@ -81,14 +100,18 @@ export class ChatService {
   }
   
   ///Remove -----------------------------
-  
   public receiveDeleteRoom = (roomId: Number, roomName: string) => {
     this.hubConnection.send('SendDelRoom', roomId, roomName)
     .catch(err => console.error(err));
   }
   
-  ///Room -----------------------------
-  public getRoomMessages = (roomId: number) => {
+  ///Get Messages -----------------------------
+  public getPrivateMessages = (receiverId: string, senderId: string) => {
+    this.hubConnection.send('populatePrivateChat', senderId, receiverId)
+    .catch(err => console.error(err));
+  }
+
+   public getRoomMessages = (roomId: number) => {
     this.hubConnection.send('populateRoomMessages', roomId)
     .catch(err => console.error(err));
   }
