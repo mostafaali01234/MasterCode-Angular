@@ -1,0 +1,103 @@
+<div class="pb-4">
+    <input type="hidden" id="hdUserId" value="@Model.UserId" />
+</div>
+<div class="row">
+    <div class="col-md-10 col-sm-12 p-2 rounded" style="width: 100%;">
+        <!-- RH: this is bootstrap 5 tabbed panel -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item w-50" role="presentation">
+                <a class="nav-link active text-center" id="public-tab" onclick="setchatboxColor('mainchatTab','black')"
+                    data-bs-toggle="tab" href="#publictabbox" role="tab" aria-controls="public" aria-selected="true">
+                    العام
+                </a>
+            </li>
+            <li class="nav-item w-50" role="presentation">
+                <a class="nav-link text-center" id="private-tab" onclick="setchatboxColor('mainchatTab','teal')"
+                    data-bs-toggle="tab" href="#privatetabbox" role="tab" aria-controls="private" aria-selected="false">
+                    <span id="private-badge" class="badge bg-danger"></span> الخاص
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content p-3" style="background-color:black" id="mainchatTab">
+            <div class="tab-pane fade show active" id="publictabbox" role="tabpanel" aria-labelledby="public-tab">
+
+                <ul class="nav nav-tabs" style="background-color:#e6e9f0" role="tablist" id="ulroomTabs">
+                    <li class="nav-item w-25" role="presentation" *ngFor="let room of rooms">
+                        <a class="nav-link text-center {{selectedChatRoomId == room.id ? 'active' : ''}}" id='room{{room.name}}-tab' data-bs-toggle="tab"
+                            href='#room{{room.id}}' role="tab"  (aria-controls)="'room' + room.id" aria-selected="true" (click)="LoadRoomMessages(room.id)">
+                            {{room.name}} 
+                            <i class="bi bi-trash text-danger deleteRoom mx-3" (click)="deleteRoom(room.id,room.name)"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item w-25" disabled id="liaddnewRoom" (click)="addnewRoom()" style="width: 6% !important;"
+                        role="presentation">
+                        <a class="nav-link text-cente" data-bs-toggle="tab" href="#" role="tab" aria-controls="roomAdd"
+                            aria-selected="true">
+                            <i class="bi bi-plus-lg bg-white text-black px-2"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" style="height:400px;background-color:#fff;" id="divRooms">
+
+                    <div class="tab-pane h-100 fade {{selectedChatRoomId == item.id ? 'show active' : ''}}" id="room{{item.id}}" role="tabpanel" *ngFor="let item of rooms"
+                        (aria-labelledby)="'room' + item.id + '-tab'">
+                        <div class="container  h-100">
+                            <div class="row h-100 flex-column p-3">
+
+                                <div class="flex-fill border border-dark rounded" style="overflow:hidden;">
+                                    <div class="d-block" style="overflow-y:auto; max-height: 280px">
+                                        <ul class="p-2" style="list-style-type:none;" id="ulmessagesList{{item.id}}">
+
+                                            <li *ngFor="let msg of messages">
+                                                <div class="row" style="margin: 0px; padding: 0px;">
+                                                    <p style="margin-bottom: 0px; display: flex;">
+                                                        <i role="button" class="bi bi-arrow-left-circle text-primary" [hidden]="msg.senderId == currentUser"></i>
+                                                        <!-- <i role="button" class="bi bi-arrow-right-circle text-primary" (click)="openPrivateChat(msg.senderId,msg.senderName)"></i> -->
+                                                        <span style="margin-right: 0.5rem; color: grey;"> {{msg.senderName}}</span>
+                                                        <span style="margin-right: 0.2rem;">:</span>
+                                                        <span style="margin-right: 0.5rem;">{{msg.message}}</span>
+                                                    </p>
+                                                    <p style="font-size: 0.8rem; color: grey;">{{msg.time | date:'medium'}}</p>
+                                                </div>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="flex-column">
+                                    <div class="row py-3">
+                                        <div class="col-auto">
+                                            <label for="inputMessage{{item.id}}" class="col-form-label">الرسالة</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" id="inputMessage{{item.id}}" [(ngModel)]="publicMessage" class="form-control">
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" id="btnMessage{{item.id}}" 
+                                                [disabled]="publicMessage == '' || publicMessage == null"
+                                                (click)="sendpublicMessage(item.id)"
+                                                class="btn btn-primary"
+                                                >ارسال
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="privatetabbox" role="tabpanel" aria-labelledby="private-tab">
+                <!-- @await Html.PartialAsync("_PrivateChat",Model) -->
+
+            </div>
+
+        </div>
+    </div>
+</div>

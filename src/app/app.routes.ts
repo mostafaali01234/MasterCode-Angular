@@ -30,6 +30,7 @@ import { EmpsComponent } from './componenets/emps/emps/emps.component';
 import { AddEmpComponent } from './componenets/emps/add-emp/add-emp.component';
 import { EditEmpPassAdminComponent } from './componenets/emps/edit-emp-pass-admin/edit-emp-pass-admin.component';
 import { CompleteOrderComponent } from './componenets/order/complete-order/complete-order.component';
+import { ChatPageComponent } from './componenets/chat/chat-page/chat-page.component';
 
 
 export const routes: Routes = [
@@ -76,6 +77,7 @@ export const routes: Routes = [
     {path: 'AddProduct', component: AddProductComponent, canActivate: [authGuard]},
     {path: 'AddProduct/:id', component: AddProductComponent, canActivate: [authGuard]},
     
+    {path: 'Chat', component: ChatPageComponent, canActivate: [authGuard]},
     
     {path: 'Emps', component: EmpsComponent, canActivate: [authGuard]},
     {path: 'AddEditEmp/:id', component: AddEmpComponent, canActivate: [authGuard]},

@@ -11,7 +11,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule, NumbersOnlyDirectiveDirective, NumberDirective],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

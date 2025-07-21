@@ -25,6 +25,10 @@ export class UserAuthService {
     return this.isUserLoggedIn() ? localStorage.getItem('token') || "" : "";
   }
 
+  getCurrentUserId(): string {
+    return this.isUserLoggedIn() ? localStorage.getItem('userId') || "" : "";
+  }
+
   getRefreshToken(): string {
     return this.isUserLoggedIn() ? localStorage.getItem('refreshToken') || "" : "";
   }
@@ -46,6 +50,7 @@ export class UserAuthService {
     return this.httpClient.post<any>(`${environment.baseUrl}/Account/refresh-token`, `"${token}"`, { headers }).pipe(
         tap((result) => {
           console.log(result);
+          localStorage.setItem('userId', result.userId);
           localStorage.setItem('token', result.token);
           localStorage.setItem('refreshToken', result.refreshToken);
           this.authSubject.next(true);
@@ -70,6 +75,7 @@ export class UserAuthService {
   login(user: IUser): Observable<any> {
     return this.httpClient.post<any>(`${environment.baseUrl}/Account/login`, user).pipe(
       tap((result) => {
+        localStorage.setItem('userId', result.userId);
         localStorage.setItem('token', result.token);
         localStorage.setItem('refreshToken', result.refreshToken);
         this.authSubject.next(true);
@@ -107,6 +113,7 @@ export class UserAuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     localStorage.removeItem('refreshToken');
     this.authSubject.next(false);
   }
