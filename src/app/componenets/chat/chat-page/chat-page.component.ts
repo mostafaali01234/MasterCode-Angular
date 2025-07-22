@@ -23,6 +23,8 @@ export class ChatPageComponent implements OnInit {
   rooms: IChatRoom[] = [] as IChatRoom[];
   messages: IPublicMessage[] = [] as IPublicMessage[];
   privateMessages: IPrivateMessage[] = [] as IPrivateMessage[];
+  unseenPrivateMessages: IPrivateMessage[] = [] as IPrivateMessage[];
+  unseenBadge: number = 0;
   users: IUserSelect[] = [] as IUserSelect[];
   publicMessage: string = '';
   privateMessage: string = '';
@@ -46,14 +48,15 @@ export class ChatPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this._UserAuthService.getCurrentUserId();
-     console.log('this.currentUser', this.currentUser);
     this.getAllRooms();
     this.getAllUsers();
-
+    
     this._ChatService.startConnection().subscribe(() => {
       this.selectedChatRoomId = this.rooms.length > 0 ? this.rooms[0].id : 0; 
       this.updateVar(this.rooms.length > 0 ? this.rooms[0].id : 0)
+      this._ChatService.checkUnseenPrivateMessages(this.currentUser);
     });
+    
 
     this._ChatService.roomsListener().subscribe((list: IChatRoom[]) => {
       this.rooms = list;
@@ -70,8 +73,25 @@ export class ChatPageComponent implements OnInit {
     this._ChatService.privateMessagesListener().subscribe((list: any) => {
        if((this.currentUser == list.senderId && this.selectedChatUserId == list.receiverId) || (this.currentUser == list.receiverId && this.selectedChatUserId == list.senderId)) {
           this.privateMessages = list.messagesList;
+          let senderId = this.currentUser == list.senderId ? list.receiverId : list.senderId;
+          this.unseenPrivateMessages = this.unseenPrivateMessages.filter(msg => msg.senderId !== senderId);
+          this.unseenBadge = this.unseenPrivateMessages.filter(msg => msg.receiverId === this.currentUser).length;
        }
     });
+
+    this._ChatService.UnseenPrivateMessagesListener().subscribe((list: any) => {
+       this.unseenPrivateMessages = list.messagesList;
+       this.unseenPrivateMessages = this.unseenPrivateMessages.filter(msg => msg.receiverId === this.currentUser);
+       this.unseenBadge = this.unseenPrivateMessages.filter(msg => msg.receiverId === this.currentUser).length;
+    });
+  }
+  
+  shouldHide(uid: string): boolean {
+    return this.unseenPrivateMessages.some(msg => msg.senderId === uid );
+  }
+  
+  unseenCount(uid: string): number {
+    return this.unseenPrivateMessages.filter(msg => msg.senderId === uid ).length;
   }
 
   getAllUsers() {

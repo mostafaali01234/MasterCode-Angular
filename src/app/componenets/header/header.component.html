@@ -65,6 +65,7 @@
               <div class="example-flex-container">
                 <div class="example-button-container" style="width: 2rem;">
                   <a mat-fab style="border: 3px solid white; border-radius: 2rem; background: #0e265b;" aria-current="page"routerLink="/Chat" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                    <span  class="badge bg-danger" style="position: absolute; margin: -2rem -0rem !important;" *ngIf="shouldHide()">{{unseenCount()}}</span> 
                     <mat-icon>chat</mat-icon>
                   </a> 
                 </div>

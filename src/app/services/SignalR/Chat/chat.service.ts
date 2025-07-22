@@ -74,25 +74,32 @@ export class ChatService {
           senderId: senderId,
           receiverId: receiverId
         };
-        console.log( list);
         observer.next(list);
       });
     });
   }
-
+  public UnseenPrivateMessagesListener(): Observable<any> {
+    return new Observable<any>((observer) => {
+      this.hubConnection.on('receiveUnseenPrivateMessages', (receiverId: string, messagesList: IPublicMessage[]) => {
+        let list = {
+          messagesList: messagesList,
+          receiverId: receiverId,
+        };
+        
+        observer.next(list);
+      });
+    });
+  }
   ///Add -----------------------------
   public receiveAddRoom = (roomName: string) => {
     this.hubConnection.send('SendAddRoom', 4, roomName)
     .catch(err => console.error(err));
   }
   
-  
   public SendPrivateMessage = (receiverId: string, privateMessage: string) => {
     this.hubConnection.send('SendPrivateMessage', receiverId, privateMessage, '')
     .catch(err => console.error(err));
   }
-  
-  
   
   public SendPublicMessage = (publicMessage: string, roomId: number) => {
     this.hubConnection.send('SendPublicMessage', roomId, publicMessage, '')
@@ -115,6 +122,13 @@ export class ChatService {
     this.hubConnection.send('populateRoomMessages', roomId)
     .catch(err => console.error(err));
   }
+
+   public checkUnseenPrivateMessages = (receiverId: string) => {
+    this.hubConnection.send('CheckUnseenPrivateMessages')
+    .catch(err => console.error(err));
+  }
+
+
   //-----------------------------------------------------
 
 

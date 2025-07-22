@@ -14,7 +14,8 @@
             <li class="nav-item w-50" role="presentation">
                 <a class="nav-link text-center" id="private-tab" onclick="setchatboxColor('mainchatTab','teal')"
                     data-bs-toggle="tab" href="#privatetabbox" role="tab" aria-controls="private" aria-selected="false">
-                    <span id="private-badge" class="badge bg-danger"></span> الخاص
+                    الخاص
+                    <span id="private-badge" class="badge bg-danger mx-2" [hidden]="unseenBadge == 0">{{unseenBadge}}</span> 
                 </a>
             </li>
         </ul>
@@ -118,7 +119,8 @@
                                                         {{user.name}}
                                                     </div>
                                                     <div class="col-auto">
-                                                        <i class="block-text align-middle bg-success rounded-circle d-none"
+                                                        <span id="unseen+{{user.id}}" class="badge bg-danger mx-2" *ngIf="shouldHide(user.id)">{{unseenCount(user.id)}}</span> 
+                                                        <i class="block-text align-middle bg-success rounded-circle"
                                                             id="spanOnline{{user.id}}" style="margin-left:5px;"
                                                             title="Online">
                                                         </i>
